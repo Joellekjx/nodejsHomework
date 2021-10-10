@@ -1,0 +1,23 @@
+{
+  "name": "task1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "task1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "task1.js": "nodemon task1.js",
+    "task2.js": "nodemon task2.js",
+    "build-task1": "babel task1.js -d lib",
+    "build-task2": "babel task2.js -d lib"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "csvtojson": "^2.0.10"
+  },
+  "type": "module"
+}
