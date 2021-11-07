@@ -1,5 +1,6 @@
 {
 	"name": "homework2",
+	"type": "module",
 	"version": "1.0.0",
 	"main": "index.js",
 	"author": "Joelle <joellekjx@gmail.com>",
@@ -10,7 +11,8 @@
 		"seed": "npx sequelize-cli db:seed:all",
 		"migrate": "npx sequelize-cli db:migrate",
 		"down": "npx sequelize-cli db:migrate:undo",
-		"homework2": "nodemon server.ts",
+		"homework3": "npm run migrate && npm run seed && nodemon app.js",
+		"homework2": "nodemon app.js",
 		"code:lint": "eslint --ext .ts"
 	},
 	"dependencies": {
