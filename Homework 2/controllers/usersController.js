@@ -1,11 +1,5 @@
-import {
-	createUser,
-	deleteUser,
-	getAutoSuggestUsers,
-	getUserById,
-	updateUser,
-} from '../data-access/userRepository.js';
 import Joi from 'joi';
+import UserService from '../services/user.js';
 
 const schema = Joi.object({
 	login: Joi.string().required(),
@@ -17,8 +11,12 @@ const schema = Joi.object({
 
 export const getUser = async (req, res) => {
 	const { id } = req.params;
-	const user = await getUserById(id);
-	sendSuccess(res, 200, user);
+	try {
+		const user = await UserService.Retrieve(id);
+		sendSuccess(res, 200, user);
+	} catch (err) {
+		catchError(res, err);
+	}
 };
 
 export const postUser = async (req, res) => {
@@ -29,8 +27,12 @@ export const postUser = async (req, res) => {
 			password: newUser.password,
 			age: newUser.age,
 		});
-		const addedUser = await createUser(newUser);
-		sendSuccess(res, 200, addedUser);
+		const newUserDetails = await UserService.Signup(newUser);
+		sendSuccess(
+			res,
+			200,
+			`User ${newUserDetails.login} have been created successfully`
+		);
 	} catch (err) {
 		catchError(res, err);
 	}
@@ -45,31 +47,33 @@ export const editUser = async (req, res) => {
 			password: user.password,
 			age: user.age,
 		});
-		const isEditedSuccessfully = await updateUser(id, user);
-		if (isEditedSuccessfully) {
-			sendSuccess(res, 200, 'User details have been saved successfully');
-		} else {
-			catchError(res, { message: 'User does not exist' });
-		}
+		const updatedUser = await UserService.Update(id, user);
+		sendSuccess(res, 200, updatedUser);
 	} catch (err) {
-		console.log('error');
 		catchError(res, err);
 	}
 };
 
 export const getSuggestedListOfUser = async (req, res) => {
 	const { loginSubstring = '', limit = '10' } = req.query;
-	const userList = await getAutoSuggestUsers(loginSubstring, parseInt(limit));
-	sendSuccess(res, 200, userList);
+	try {
+		const userList = await UserService.AutoSuggest(
+			loginSubstring,
+			parseInt(limit)
+		);
+		sendSuccess(res, 200, userList);
+	} catch (err) {
+		catchError(res, err);
+	}
 };
 
 export const removeUser = async (req, res) => {
 	const { id } = req.params;
-	const isDeletedSuccessfully = await deleteUser(id);
-	if (isDeletedSuccessfully) {
-		sendSuccess(res, 200, 'User have been deleted successfully');
-	} else {
-		catchError(res, { message: 'User does not exist' });
+	try {
+		const deletedUser = await UserService.Delete(id);
+		sendSuccess(res, 200, deletedUser);
+	} catch (err) {
+		catchError(res, err);
 	}
 };
 

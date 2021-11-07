@@ -10,9 +10,8 @@ export const getUserById = async (id) => {
 };
 
 export const createUser = async (newUser) => {
-	const userId = Math.floor(Math.random() * 100); //Random generate id from 0-100
 	return await User.create({
-		id: `${userId}`,
+		id: newUser.id,
 		login: newUser.login,
 		password: newUser.password,
 		age: newUser.age,
@@ -23,11 +22,11 @@ export const createUser = async (newUser) => {
 };
 
 export const updateUser = async (id, user) => {
-	return await User.update(user, { where: { id } })
-		.then((data) => {
-			console.log(data);
-			return data[0];
-		})
+	return await User.update(user, {
+		where: { id },
+		returning: true, // Set to true so that the affected row is returned as an array in the second value of the returned array
+	})
+		.then((data) => data[1][0])
 		.catch((err) => console.log(err));
 };
 
@@ -45,9 +44,13 @@ export const getAutoSuggestUsers = async (loginSubstring, limit) => {
 };
 
 export const deleteUser = async (id) => {
-	return await User.update({ isDeleted: true }, { where: { id } })
-		.then((data) => {
-			return data[0];
-		})
+	return await User.update(
+		{ isDeleted: true },
+		{
+			where: { id },
+			returning: true, // Set to true so that the affected row is returned as an array in the second value of the returned array
+		}
+	)
+		.then((data) => data[1][0])
 		.catch((err) => console.log(err));
 };
