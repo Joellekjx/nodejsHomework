@@ -23,6 +23,6 @@ export default (sequelize, DataTypes) => {
 		},
 	});
 
-	User.sync();
+	// User.sync();
 	return User;
 };

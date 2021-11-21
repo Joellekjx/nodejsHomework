@@ -8,7 +8,7 @@ const app = express();
 app.use(routes);
 app.use(express.static('public'));
 
-var sequelize = new Sequelize('nodejs_homework_3', 'postgres', '', {
+export const sequelize = new Sequelize('nodejs_homework_3', 'postgres', '', {
 	host: 'localhost',
 	dialect: 'postgres',
 	port: 3000,
