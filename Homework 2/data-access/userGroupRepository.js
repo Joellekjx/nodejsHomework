@@ -1,5 +1,7 @@
 import { sequelize } from '../app.js';
 import models from '../models/index.js';
+import { v4 as uuidv4 } from 'uuid';
+
 const UserGroup = models.UserGroup;
 const User = models.User;
 const Group = models.Group;
@@ -24,7 +26,7 @@ export const addUsersToGroup = async (groupId, userIds) => {
 
 		if (group && user) {
 			const newRecords = userIds.map((userId) => {
-				return { id: Math.floor(Math.random() * 100000), groupId, userId };
+				return { id: uuidv4(), groupId, userId };
 			});
 			return await UserGroup.bulkCreate(newRecords);
 		}

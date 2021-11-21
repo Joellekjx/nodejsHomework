@@ -5,10 +5,11 @@ import {
 	updateGroup,
 	deleteGroup,
 } from '../data-access/groupRepository.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
 	Create: async (group) => {
-		const id = Math.floor(Math.random() * 100); //Random generate id from 0-100
+		const id = uuidv4();
 		const createdGroup = await createGroup({ ...group, id });
 		return createdGroup;
 	},

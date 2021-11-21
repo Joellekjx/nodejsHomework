@@ -5,10 +5,11 @@ import {
 	getUserById,
 	updateUser,
 } from '../data-access/userRepository.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
 	Signup: async (user) => {
-		const id = Math.floor(Math.random() * 100); //Random generate id from 0-100
+		const id = uuidv4();
 		const addedUser = await createUser({ ...user, id });
 		return addedUser;
 	},
