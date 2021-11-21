@@ -22,6 +22,5 @@ export default (sequelize, DataTypes) => {
 		});
 	};
 
-	// Group.sync();
 	return Group;
 };
