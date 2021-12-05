@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { logger } from '../logger/Logger.js';
 import UserService from '../services/user.js';
 
 const schema = Joi.object({
@@ -15,7 +16,7 @@ export const getUser = async (req, res) => {
 		const user = await UserService.Retrieve(id);
 		sendSuccess(res, 200, user);
 	} catch (err) {
-		catchError(res, err);
+		catchError(req, res, err);
 	}
 };
 
@@ -34,7 +35,7 @@ export const postUser = async (req, res) => {
 			`User ${newUserDetails.login} have been created successfully`
 		);
 	} catch (err) {
-		catchError(res, err);
+		catchError(req, res, err);
 	}
 };
 
@@ -50,7 +51,7 @@ export const editUser = async (req, res) => {
 		const updatedUser = await UserService.Update(id, user);
 		sendSuccess(res, 200, updatedUser);
 	} catch (err) {
-		catchError(res, err);
+		catchError(req, res, err);
 	}
 };
 
@@ -63,7 +64,7 @@ export const getSuggestedListOfUser = async (req, res) => {
 		);
 		sendSuccess(res, 200, userList);
 	} catch (err) {
-		catchError(res, err);
+		catchError(req, res, err);
 	}
 };
 
@@ -73,7 +74,7 @@ export const removeUser = async (req, res) => {
 		const deletedUser = await UserService.Delete(id);
 		sendSuccess(res, 200, deletedUser);
 	} catch (err) {
-		catchError(res, err);
+		catchError(req, res, err);
 	}
 };
 
@@ -82,8 +83,16 @@ const sendSuccess = (res, status, toSendObj) => {
 	res.send(toSendObj);
 };
 
-const catchError = (res, err) => {
-	res.status(400);
+const catchError = (req, res, err) => {
+	logger.error({
+		service: 'user-service',
+		method: req.method,
+		URL: req.url,
+		params: req.params,
+		body: req.body,
+		msg: err.message,
+	});
+	res.status(500);
 	res.send({
 		error: err.message,
 	});

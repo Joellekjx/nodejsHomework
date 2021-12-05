@@ -5,7 +5,7 @@ export const getAllUserGroups = async (req, res) => {
 		const userGroup = await UserGroupService.RetrieveAll();
 		sendSuccess(res, 200, userGroup);
 	} catch (err) {
-		catchError(res, err);
+		catchError(req, res, err);
 	}
 };
 
@@ -18,7 +18,7 @@ export const addUsersToGroup = async (req, res) => {
 		);
 		sendSuccess(res, 200, userGroup);
 	} catch (err) {
-		catchError(res, err);
+		catchError(req, res, err);
 	}
 };
 
