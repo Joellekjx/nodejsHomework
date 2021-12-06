@@ -56,3 +56,7 @@ sequelize
 	});
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
+
+process.on('uncaughtException', function (err) {
+	logger.error(`UNCAUGHT EXCEPTION: ${err.stack || err.message}`);
+});
