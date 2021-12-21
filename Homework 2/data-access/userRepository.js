@@ -3,6 +3,17 @@ import Sequelize from 'sequelize';
 const Op = Sequelize.Op;
 const User = models.User;
 
+export const getUserByLogin = async (login, password) => {
+	return await User.findOne({
+		where: {
+			login,
+			password,
+		},
+	})
+		.then((data) => data)
+		.catch((err) => console.log(err));
+};
+
 export const getUserById = async (id) => {
 	return await User.findByPk(id)
 		.then((data) => data.dataValues)

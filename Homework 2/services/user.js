@@ -1,4 +1,5 @@
 import {
+	getUserByLogin,
 	createUser,
 	deleteUser,
 	getAutoSuggestUsers,
@@ -8,6 +9,10 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
+	Authenticate: async (login, password) => {
+		const user = await getUserByLogin(login, password);
+		return user;
+	},
 	Signup: async (user) => {
 		const id = uuidv4();
 		const addedUser = await createUser({ ...user, id });

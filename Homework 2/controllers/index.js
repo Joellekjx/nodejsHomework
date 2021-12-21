@@ -5,6 +5,7 @@ import {
 	editUser,
 	getSuggestedListOfUser,
 	removeUser,
+	login,
 } from './userController.js';
 import {
 	getGroup,
@@ -18,6 +19,8 @@ import { getAllUserGroups, addUsersToGroup } from './userGroupController.js';
 const router = express.Router();
 
 router.use(express.json());
+
+router.post('/user/login', login);
 
 router.get('/user/:id', getUser);
 router.post('/user', postUser);
