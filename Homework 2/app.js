@@ -2,6 +2,7 @@ import express from 'express';
 import routes from './controllers/index.js';
 import { Sequelize } from 'sequelize';
 import { logger } from './logger/Logger.js';
+import jwt from 'jsonwebtoken';
 
 const PORT = 4000;
 const app = express();
@@ -30,8 +31,28 @@ const errorHandlerMiddleware = (err, req, res, next) => {
 	res.status(500).send('Something broke!');
 };
 
+const checkToken = (req, res, next) => {
+	if (req.path.search('/login') === -1) {
+		const token = req.headers['x-access-token'];
+		if (!token) {
+			res.status(401).send({ success: false, message: 'No token provided' });
+		}
+
+		jwt.verify(token, 'secret', (err, decoded) => {
+			if (err) {
+				console.log(err);
+				res
+					.status(403)
+					.send({ success: false, message: 'Failed to authenticate token.' });
+			}
+		});
+	}
+	next();
+};
+
 app.use(logMiddleware);
 app.use(errorHandlerMiddleware);
+app.use(checkToken);
 app.use(routes);
 app.use(express.static('public'));
 
