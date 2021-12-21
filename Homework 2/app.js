@@ -3,6 +3,7 @@ import routes from './controllers/index.js';
 import { Sequelize } from 'sequelize';
 import { logger } from './logger/Logger.js';
 import jwt from 'jsonwebtoken';
+import cors from 'cors';
 
 const PORT = 4000;
 const app = express();
@@ -50,6 +51,7 @@ const checkToken = (req, res, next) => {
 	next();
 };
 
+app.use(cors());
 app.use(logMiddleware);
 app.use(errorHandlerMiddleware);
 app.use(checkToken);
