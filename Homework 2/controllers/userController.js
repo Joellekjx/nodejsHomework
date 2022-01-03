@@ -1,7 +1,6 @@
 import Joi from 'joi';
 import { logger } from '../logger/Logger.js';
 import UserService from '../services/user.js';
-import jwt from 'jsonwebtoken';
 
 const schema = Joi.object({
 	login: Joi.string().required(),
@@ -10,24 +9,6 @@ const schema = Joi.object({
 		.required(),
 	age: Joi.number().integer().min(4).max(130).required(),
 });
-
-export const login = async (req, res) => {
-	const { login, password } = req.body;
-	try {
-		const user = await UserService.Authenticate(login, password);
-		if (!user || user.isDeleted) {
-			return res.status(401).send({
-				success: false,
-				message: 'Bad username/password combination.',
-			});
-		}
-		const payload = { id: user.id, login: user.login, age: user.age };
-		const token = jwt.sign(payload, 'secret', { expiresIn: 120 });
-		sendSuccess(res, 200, token);
-	} catch (err) {
-		catchError(req, res, err);
-	}
-};
 
 export const getUser = async (req, res) => {
 	const { id } = req.params;

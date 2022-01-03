@@ -1,11 +1,11 @@
 import express from 'express';
+import { login } from './authenticationController.js';
 import {
 	getUser,
 	postUser,
 	editUser,
 	getSuggestedListOfUser,
 	removeUser,
-	login,
 } from './userController.js';
 import {
 	getGroup,
