@@ -13,7 +13,8 @@
 		"down": "npx sequelize-cli db:migrate:undo",
 		"homework3": "npm run migrate && npm run seed && nodemon app.js",
 		"homework2": "nodemon app.js",
-		"code:lint": "eslint --ext .ts"
+		"code:lint": "eslint --ext .ts",
+		"test": "jest "
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
