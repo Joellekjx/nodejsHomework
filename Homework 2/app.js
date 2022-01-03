@@ -9,7 +9,7 @@ import {
 	errorHandlerMiddleware,
 } from './middleware/logMiddleware.js';
 
-const PORT = 4000;
+const PORT = process.env.EXPRESS_PORT;
 const app = express();
 
 app.use(cors());
@@ -20,9 +20,9 @@ app.use(routes);
 app.use(express.static('public'));
 
 export const sequelize = new Sequelize('nodejs_homework_3', 'postgres', '', {
-	host: 'localhost',
+	host: process.env.DB_HOST,
 	dialect: 'postgres',
-	port: 3000,
+	port: process.env.DB_PORT,
 	pool: {
 		max: 5,
 		min: 0,

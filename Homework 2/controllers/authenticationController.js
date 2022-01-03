@@ -13,7 +13,7 @@ export const login = async (req, res) => {
 			});
 		}
 		const payload = { id: user.id, login: user.login, age: user.age };
-		const token = jwt.sign(payload, 'secret', { expiresIn: 120 });
+		const token = jwt.sign(payload, 'secret', { expiresIn: 12000000 });
 		sendSuccess(res, 200, token);
 	} catch (err) {
 		catchError(req, res, err);
