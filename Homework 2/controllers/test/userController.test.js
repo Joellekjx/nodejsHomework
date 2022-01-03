@@ -8,7 +8,7 @@ import {
 import UserService from '../../services/user.js';
 
 describe('removeUser', () => {
-	it('should set isDeleted to true send response correctly', async () => {
+	it('should set isDeleted to true and send response correctly', async () => {
 		const deletedUser = {
 			id: '1',
 			login: 'user1',
